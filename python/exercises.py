@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from collections.abc import Callable
-from typing import Optional, Iterator
+from typing import Optional, Generator, Union
 
 def change(amount: int) -> dict[int, int]:
     if not isinstance(amount, int):
@@ -21,25 +21,23 @@ def first_then_lower_case(a: list[str], p: Callable[[str], bool]) -> Optional[st
     return None
 
 # Write your powers generator here
-def powers_generator(base:int, limit:int) -> Iterator[list[int]]:
-    arr = []
+def powers_generator(base:int, limit:int) -> Generator[int, None, None]:
     index = 0;
     while base**index <= limit:
-        arr.append(base**index)
+        yield (base**index)
         index += 1
-    return iter(arr)
 
 
-# Write your say function here
-# Used answer by: https://stackoverflow.com/users/4952130/dimitris-fasarakis-hilliard at https://stackoverflow.com/questions/39038358/function-chaining-in-python
-class CustomString(str):
-    def __call__(self, value=None):
-        if value == None:
-            return CustomString(self + "")
-        return CustomString(self + " " + value)
+def say(text: str=None) -> callable:
+    if text is None:
+        return ""
 
-def say(text: str="") -> str:
-    return CustomString(text)
+    def inner(next: str=None) -> Union[str, callable]:
+        if next is None:
+            return text
+        return say(text + " " + next)
+
+    return inner
 
 # Write your line count function here
 def meaningful_line_count(file_path: str) -> int:
