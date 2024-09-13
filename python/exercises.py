@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from collections.abc import Callable
 from typing import Optional, Generator, Union
 
-
 def change(amount: int) -> dict[int, int]:
     if not isinstance(amount, int):
         raise TypeError('Amount must be an integer')
@@ -13,7 +12,6 @@ def change(amount: int) -> dict[int, int]:
         counts[denomination], remaining = divmod(remaining, denomination)
     return counts
 
-
 # Write your first then lower case function here
 def first_then_lower_case(a: list[str], p: Callable[[str], bool]) -> Optional[str]:
     for i in a:
@@ -22,15 +20,13 @@ def first_then_lower_case(a: list[str], p: Callable[[str], bool]) -> Optional[st
     return None
 
 # Write your powers generator here
-
-
 def powers_generator(base: int, limit: int) -> Generator[int, None, None]:
     index = 0
     while base**index <= limit:
         yield (base**index)
         index += 1
 
-
+# Write your say function here
 def say(text: str = None) -> callable:
     if text is None:
         return ""
@@ -43,8 +39,6 @@ def say(text: str = None) -> callable:
     return inner
 
 # Write your line count function here
-
-
 def meaningful_line_count(file_path: str) -> int:
     count = 0
     try:
@@ -64,8 +58,6 @@ def meaningful_line_count(file_path: str) -> int:
     return count
 
 # Write your Quaternion class here
-
-
 @dataclass(frozen=True)
 class Quaternion:
     a: float
