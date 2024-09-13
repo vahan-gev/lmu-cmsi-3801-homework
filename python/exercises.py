@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from collections.abc import Callable
 from typing import Optional, Generator, Union
 
+
 def change(amount: int) -> dict[int, int]:
     if not isinstance(amount, int):
         raise TypeError('Amount must be an integer')
@@ -21,18 +22,20 @@ def first_then_lower_case(a: list[str], p: Callable[[str], bool]) -> Optional[st
     return None
 
 # Write your powers generator here
-def powers_generator(base:int, limit:int) -> Generator[int, None, None]:
-    index = 0;
+
+
+def powers_generator(base: int, limit: int) -> Generator[int, None, None]:
+    index = 0
     while base**index <= limit:
         yield (base**index)
         index += 1
 
 
-def say(text: str=None) -> callable:
+def say(text: str = None) -> callable:
     if text is None:
         return ""
 
-    def inner(next: str=None) -> Union[str, callable]:
+    def inner(next: str = None) -> Union[str, callable]:
         if next is None:
             return text
         return say(text + " " + next)
@@ -40,6 +43,8 @@ def say(text: str=None) -> callable:
     return inner
 
 # Write your line count function here
+
+
 def meaningful_line_count(file_path: str) -> int:
     count = 0
     try:
@@ -59,6 +64,8 @@ def meaningful_line_count(file_path: str) -> int:
     return count
 
 # Write your Quaternion class here
+
+
 @dataclass(frozen=True)
 class Quaternion:
     a: float
@@ -72,13 +79,16 @@ class Quaternion:
             result += str(self.a)
         if self.b != 0:
             result += "+" if (self.b > 0 and result != "") else ""
-            result += ("" if self.b == 1 else "-" if self.b == -1 else str(self.b)) + "i"
+            result += ("" if self.b == 1 else "-" if self.b == -
+                       1 else str(self.b)) + "i"
         if self.c != 0:
             result += "+" if (self.c > 0 and result != "") else ""
-            result += ("" if self.c == 1 else "-" if self.c == -1 else str(self.c)) + "j"
+            result += ("" if self.c == 1 else "-" if self.c == -
+                       1 else str(self.c)) + "j"
         if self.d != 0:
             result += "+" if (self.d > 0 and result != "") else ""
-            result += ("" if self.d == 1 else "-" if self.d == -1 else str(self.d)) + "k"
+            result += ("" if self.d == 1 else "-" if self.d == -
+                       1 else str(self.d)) + "k"
         return result or "0"
 
     __repr__ = __str__

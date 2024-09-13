@@ -23,6 +23,7 @@ function first_then_lower_case(a, p)
 
     return nil
 end
+
 -- Write your powers generator here
 function powers_generator(base, limit)
     local index = 0
@@ -33,6 +34,7 @@ function powers_generator(base, limit)
         end
     end)
 end
+
 -- Write your say function here
 function say(word)
     if word == nil then
