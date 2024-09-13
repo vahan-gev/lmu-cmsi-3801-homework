@@ -45,7 +45,6 @@ function say(word)
       return word
     end
     return say(word .. " " .. text)
-  
   end
   return connect
 end
@@ -89,12 +88,52 @@ quaternionmeta = {
     local d = self.a * other.d + self.b * other.c - self.c * other.b + self.d * other.a
     return Quaternion.new(a, b, c, d)
   end,
-  __equals = function(self, other)
+  __eq = function(self, other)
     return self.a == other.a and self.b == other.b and self.c == other.c and self.d == other.d
   end,
   --__tostring metamethod is used to convert a table to a string--
   __tostring = function(self)
-    return ""
+    result = ""
+    if self.a ~= 0 or (self.b == 0 and self.c == 0 and self.d == 0) then
+      result = result .. self.a
+    end
+    if self.b ~= 0 then
+      if self.b > 0 and result ~= "" then
+        result = result .. "+"
+      end
+      if self.b == 1 then
+        result = result .. "i"
+      elseif self.b == -1 then
+        result = result .. "-i"
+      else 
+        result = result .. self.b .. "i"
+      end
+    end
+    if self.c ~= 0 then
+      if self.c > 0 and result ~= "" then
+        result = result .. "+"
+      end
+      if self.c == 1 then
+        result = result .. "j"
+      elseif self.c == -1 then
+        result = result .. "-j"
+      else 
+        result = result .. self.c .. "j"
+      end
+    end
+    if self.d ~= 0 then
+      if self.d > 0 and result ~= "" then
+        result = result .. "+"
+      end
+      if self.d == 1 then
+        result = result .. "k"
+      elseif self.d == -1 then
+        result = result .. "-k"
+      else 
+        result = result .. self.d .. "k"
+      end
+    end
+    return result
   end
      
 }
