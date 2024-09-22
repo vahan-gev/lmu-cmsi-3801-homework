@@ -23,6 +23,7 @@ public class Exercises {
         return counts;
     }
 
+    //firtThenLowerCase function
     public static Optional <String> firstThenLowerCase(List<String> strList, Function<String, Boolean> func){
         return strList.stream() 
             .filter(str -> func.apply(str))
@@ -30,37 +31,35 @@ public class Exercises {
             .map(String::toLowerCase);
     }
 
-     public interface Chainable {
-        Chainable and(String next);
-        String phrase();
+    //say function
+    public static Say say() {
+        return new Say("");
     }
 
-    public static Chainable say() {
-        return say("");
+    public static Say say(String str) {
+        return new Say(str);
     }
 
-    public static Chainable say(String str) {
-        return new Chainable() {
-            private StringBuilder message = new StringBuilder(str != null ? str : "");
+    public static class Say {
+        private final String phrase;
 
-            @Override
-            public Chainable and(String next) {
-                if (next != null) {
-                    if (message.length() > 0) {
-                        message.append(" ");
-                    }
-                    message.append(next);
-                }
-                return this;
+        public Say(String str) {
+            this.phrase = (str == null) ? "" : str;
+        }
+
+        public Say and(String str) {
+            if (str == null || str.isEmpty()) {
+                return new Say(this.phrase + " "); 
+            } else {
+                return new Say(this.phrase + " " + str);  
             }
+        }
 
-            @Override
-            public String phrase() {
-                return message.toString();
-            }
-        };
+        public String phrase() {
+            return this.phrase;
+        }
     }
-    
+
     // Write your line count function here
 }
 
