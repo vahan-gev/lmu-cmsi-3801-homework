@@ -6,6 +6,9 @@ import java.util.function.Predicate;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.function.Function;
+import java.util.Arrays;
+import java.util.stream.Stream; 
 
 public class Exercises {
     static Map<Integer, Long> change(long amount) {
@@ -20,10 +23,44 @@ public class Exercises {
         return counts;
     }
 
-    // Write your first then lower case function here
+    public static Optional <String> firstThenLowerCase(List<String> strList, Function<String, Boolean> func){
+        return strList.stream() 
+            .filter(str -> func.apply(str))
+            .findFirst()
+            .map(String::toLowerCase);
+    }
 
-    // Write your say function here
+     public interface Chainable {
+        Chainable and(String next);
+        String phrase();
+    }
 
+    public static Chainable say() {
+        return say("");
+    }
+
+    public static Chainable say(String str) {
+        return new Chainable() {
+            private StringBuilder message = new StringBuilder(str != null ? str : "");
+
+            @Override
+            public Chainable and(String next) {
+                if (next != null) {
+                    if (message.length() > 0) {
+                        message.append(" ");
+                    }
+                    message.append(next);
+                }
+                return this;
+            }
+
+            @Override
+            public String phrase() {
+                return message.toString();
+            }
+        };
+    }
+    
     // Write your line count function here
 }
 
