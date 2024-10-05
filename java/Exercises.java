@@ -72,7 +72,6 @@ public class Exercises {
         }
         return true;
     }
-
 }
 
 record Quaternion(double a, double b, double c, double d) {
