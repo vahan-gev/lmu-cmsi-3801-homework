@@ -48,8 +48,7 @@ func meaningfulLineCount(_ filename: String) async -> Result<Int, NoSuchFileErro
     var count: Int = 0
 
     do {
-        for line: String in try String(contentsOf: url).components(separatedBy: .newlines) {
-            
+        for try await line: String in url.lines {
             let trimmedLine: String = line.trimmingCharacters(in: .whitespaces)
             
             if !trimmedLine.isEmpty && !trimmedLine.hasPrefix("#") {
@@ -156,7 +155,7 @@ struct Quaternion: Equatable, CustomStringConvertible {
                 result += "\(self.d)k"
             }
         }
-        
+
         return result.isEmpty ? "0" : result
     }
 }
@@ -176,7 +175,6 @@ indirect enum BinarySearchTree: CustomStringConvertible {
     }
 
     func insert(_ newValue: String) -> BinarySearchTree {
-
         switch self {
             case .empty:
                 return .node(left: .empty, value: newValue, right: .empty)
@@ -194,7 +192,6 @@ indirect enum BinarySearchTree: CustomStringConvertible {
     }
 
     func contains(_ value: String) -> Bool {
-
         switch self {
             case .empty:
                 return false
