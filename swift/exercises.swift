@@ -15,7 +15,6 @@ func change(_ amount: Int) -> Result<[Int:Int], NegativeAmountError> {
     return .success(counts)
 }
 
-// Write your first then lower case function here
 func firstThenLowerCase(of strings: [String], satisfying predicate: (String) -> Bool) -> String? {
     for string: String in strings {
         if predicate(string) {
@@ -24,7 +23,7 @@ func firstThenLowerCase(of strings: [String], satisfying predicate: (String) -> 
     }
     return nil
 }
-// Write your say function here
+
 struct Sayer {
 
     let phrase: String
@@ -41,7 +40,7 @@ struct Sayer {
 func say(_ word: String = "") -> Sayer {
     return Sayer(phrase: word)
 }
-// Write your meaningfulLineCount function here
+
 func meaningfulLineCount(_ filename: String) async -> Result<Int, NoSuchFileError> {
 
     let url: URL = URL(fileURLWithPath: filename)
@@ -62,7 +61,7 @@ func meaningfulLineCount(_ filename: String) async -> Result<Int, NoSuchFileErro
     }
 
 }
-// Write your Quaternion struct here
+
 struct Quaternion: Equatable, CustomStringConvertible {
 
     let a: Double
@@ -160,7 +159,6 @@ struct Quaternion: Equatable, CustomStringConvertible {
     }
 }
 
-// Write your Binary Search Tree enum here
 indirect enum BinarySearchTree: CustomStringConvertible {
 
     case empty 
@@ -210,15 +208,22 @@ indirect enum BinarySearchTree: CustomStringConvertible {
 
     var description: String {
         switch self {
-            case .empty:
-                return "()"
-            case .node(let left, let value, let right):
-                let leftString: String = left.description
-                let rightString: String = right.description
-                if leftString == "()" && rightString == "()" {
-                    return "(\(value))"
-                }
-                return "(\(leftString)\(value)\(rightString))"
+        case .empty:
+            return "()"
+        case let .node(left, value, right):
+            let leftStr = "\(left)"
+            let rightStr = "\(right)"
+            
+            if leftStr == "()" && rightStr == "()" {
+                return "(\(value))"
+            }
+            if leftStr == "()" {
+                return "(\(value)\(rightStr))"
+            }
+            if rightStr == "()" {
+                return "(\(leftStr)\(value))"
+            }
+            return "(\(leftStr)\(value)\(rightStr))"
         }
     }
 
