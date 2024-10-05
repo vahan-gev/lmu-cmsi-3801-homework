@@ -2,15 +2,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.function.Function;
-import java.util.Arrays;
-import java.util.stream.Stream; 
 import java.io.FileNotFoundException;
-import java.util.Objects;
 
 public class Exercises {
     static Map<Integer, Long> change(long amount) {
@@ -25,7 +21,6 @@ public class Exercises {
         return counts;
     }
 
-    //firtThenLowerCase function
     public static Optional <String> firstThenLowerCase(List<String> strList, Function<String, Boolean> func){
         return strList.stream() 
             .filter(str -> func.apply(str))
@@ -33,7 +28,6 @@ public class Exercises {
             .map(String::toLowerCase);
     }
 
-    //say function
     public static Say say() {
         return new Say("");
     }
@@ -62,7 +56,6 @@ public class Exercises {
         }
     }
 
-    //line count function
     public static int meaningfulLineCount(String str) throws FileNotFoundException, IOException {
         int count = 0;      
         try (BufferedReader reader = new BufferedReader(new FileReader(str))) {
@@ -82,7 +75,6 @@ public class Exercises {
 
 }
 
-// Quaternion record class
 record Quaternion(double a, double b, double c, double d) {
     public static final Quaternion ZERO = new Quaternion(0, 0, 0, 0);
     public static final Quaternion I = new Quaternion(0, 1, 0, 0);
@@ -90,26 +82,26 @@ record Quaternion(double a, double b, double c, double d) {
     public static final Quaternion K = new Quaternion(0, 0, 0, 1);
 
     public Quaternion {
-        if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c) || Double.isNaN(d)) {
+        if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c) || Double.isNaN(d)){
             throw new IllegalArgumentException("Coefficients cannot be NaN");
         }
     }
 
-    public Quaternion plus(Quaternion q) {
+    public Quaternion plus(Quaternion other) {
         return new Quaternion(
-                this.a + q.a,
-                this.b + q.b,
-                this.c + q.c,
-                this.d + q.d
+                this.a + other.a,
+                this.b + other.b,
+                this.c + other.c,
+                this.d + other.d
         );
     }
 
-    public Quaternion times(Quaternion q) {
+    public Quaternion times(Quaternion other) {
         return new Quaternion(
-                this.a * q.a - this.b * q.b - this.c * q.c - this.d * q.d,
-                this.a * q.b + this.b * q.a + this.c * q.d - this.d * q.c,
-                this.a * q.c - this.b * q.d + this.c * q.a + this.d * q.b,
-                this.a * q.d + this.b * q.c - this.c * q.b + this.d * q.a
+                this.a * other.a - this.b * other.b - this.c * other.c - this.d * other.d,
+                this.a * other.b + this.b * other.a + this.c * other.d - this.d * other.c,
+                this.a * other.c - this.b * other.d + this.c * other.a + this.d * other.b,
+                this.a * other.d + this.b * other.c - this.c * other.b + this.d * other.a
         );
     }
 
@@ -130,31 +122,24 @@ record Quaternion(double a, double b, double c, double d) {
         if (a != 0 || (b == 0 && c == 0 && d == 0)) {
             result.append(a);
         }
-        if (b != 0) {
-            if (b > 0 && result.length() > 0) result.append("+");
-            result.append(b == 1 ? "" : b == -1 ? "-" : b).append("i");
-        }
-        if (c != 0) {
-            if (c > 0 && result.length() > 0) result.append("+");
-            result.append(c == 1 ? "" : c == -1 ? "-" : c).append("j");
-        }
-        if (d != 0) {
-            if (d > 0 && result.length() > 0) result.append("+");
-            result.append(d == 1 ? "" : d == -1 ? "-" : d).append("k");
-        }
+        appendComponent(result, b, "i");
+        appendComponent(result, c, "j");
+        appendComponent(result, d, "k");
         return result.length() == 0 ? "0" : result.toString();
+    }
+
+    private void appendComponent(StringBuilder builder, double value, String symbol) {
+        if (value != 0) {
+            if (value > 0 && builder.length() > 0) builder.append("+");
+            builder.append(value == 1 ? "" : value == -1 ? "-" : value).append(symbol);
+        }
     }
 }
 
-
-//BinarySearchTree sealed interface and its implementations
 sealed interface BinarySearchTree permits Empty, Node {
     int size();
-    
     boolean contains(String value);
-    
     BinarySearchTree insert(String value);
-    
     String toString();
 }
 
@@ -190,7 +175,7 @@ final class Node implements BinarySearchTree {
         this.value = value;
         this.left = left;
         this.right = right;
-        this.size = 1 + left.size() + right.size(); 
+        this.size = 1 + left.size() + right.size();
     }
 
     @Override
@@ -199,40 +184,40 @@ final class Node implements BinarySearchTree {
     }
 
     @Override
-    public boolean contains(String value) {
-        if (this.value.equals(value)) {
+    public boolean contains(String searchValue) {
+        if (this.value.equals(searchValue)) {
             return true;
         }
-        if (value.compareTo(this.value) < 0) {
-            return left.contains(value);
+        if (searchValue.compareTo(this.value) < 0) {
+            return left.contains(searchValue);
         } else {
-            return right.contains(value);
+            return right.contains(searchValue);
         }
     }
 
     @Override
-    public BinarySearchTree insert(String value) {
-        if (value.compareTo(this.value) < 0) {
-            return new Node(this.value, left.insert(value), right); 
-        } else if (value.compareTo(this.value) > 0) {
-            return new Node(this.value, left, right.insert(value)); 
+    public BinarySearchTree insert(String newValue) {
+        if (newValue.compareTo(this.value) < 0) {
+            return new Node(this.value, left.insert(newValue), right);
+        } else if (newValue.compareTo(this.value) > 0) {
+            return new Node(this.value, left, right.insert(newValue));
         } else {
-            return this; 
+            return this;
         }
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("(");
+        StringBuilder treeString = new StringBuilder();
+        treeString.append("(");
         if (!(left instanceof Empty)) {
-            sb.append(left.toString());
+            treeString.append(left.toString());
         }
-        sb.append(value);
+        treeString.append(value);
         if (!(right instanceof Empty)) {
-            sb.append(right.toString());
+            treeString.append(right.toString());
         }
-        sb.append(")");
-        return sb.toString();
+        treeString.append(")");
+        return treeString.toString();
     }
 }
