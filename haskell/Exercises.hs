@@ -101,4 +101,8 @@ size (Node left _ right) = 1 + size left + size right
 
 inorder :: BST a -> [a]
 inorder Empty = []
+<<<<<<< HEAD
 inorder (Node left val right) = inorder left ++ [val] ++ inorder right
+=======
+inorder (Node left val right) = inorder left ++ [val] ++ inorder right
+>>>>>>> 478461ad792de1e7609d809b6fe65f6ebfad49b8

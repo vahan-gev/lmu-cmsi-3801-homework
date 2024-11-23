@@ -72,4 +72,8 @@ main = do
     test (message, condition) =
         ( message ++ ": " ++ (if condition then "SUCCESS" else "FAIL")
         , if condition then 0 else 1
+<<<<<<< HEAD
         )
+=======
+        )
+>>>>>>> 478461ad792de1e7609d809b6fe65f6ebfad49b8
